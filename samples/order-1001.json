@@ -1,0 +1,8 @@
+{
+  "order_id": "1001",
+  "customer": "ada@example.com",
+  "items": [
+    { "sku": "KB-01", "quantity": 2, "unit_price_cents": 4999 },
+    { "sku": "MS-07", "quantity": 1, "unit_price_cents": 2500 }
+  ]
+}

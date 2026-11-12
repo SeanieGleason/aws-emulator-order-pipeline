@@ -1,0 +1,26 @@
+[package]
+name = "order-pipeline"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+name = "order_pipeline"
+path = "src/pipeline/lib.rs"
+
+[[bin]]
+name = "order-pipeline"
+path = "src/main.rs"
+
+[dependencies]
+aws-config = { version = "1", features = ["behavior-version-latest"] }
+aws-sdk-dynamodb = "1"
+aws-sdk-s3 = "1"
+aws-sdk-sns = "1"
+aws-sdk-sqs = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
+
+[dev-dependencies]
+aws-emulator-embedded = { path = "../aws-emulator/core/embedded" }
