@@ -27,7 +27,14 @@ The tests link the emulator into the test binary through `aws-emulator-embedded`
 cargo test
 ```
 
-The first build compiles every emulator service crate, so expect a long cold build and a large `target/`.
+The first build compiles every emulator service crate, so expect a long cold build and a large `target/`. `Cargo.lock` is seeded from the emulator's own lockfile so both build against the same dependency versions.
+
+The emulator builds from source on Linux only; on Windows its `rustpython-host_env` dependency fails to compile. From Windows or macOS, run the tests in a Linux container:
+
+```bash
+docker run --rm -v "$PWD/..:/work" -w /work/aws-emulator-order-pipeline \
+  -e CARGO_TARGET_DIR=/work/target-linux rust:latest cargo test
+```
 
 ## Run (server mode)
 
