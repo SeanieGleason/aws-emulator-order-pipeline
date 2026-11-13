@@ -145,9 +145,13 @@ async fn a_redelivered_order_is_stored_once() {
     upload(&clients, &resources, "order-2002.json", order.clone()).await;
     upload(&clients, &resources, "order-2002-retry.json", order).await;
 
-    let seen = work_until(&clients, &resources, |seen| seen.len() >= 2).await;
-    assert!(seen.contains(&Outcome::Processed { order_id: "2002".into() }));
-    assert!(seen.contains(&Outcome::Duplicate { order_id: "2002".into() }));
+    let processed = Outcome::Processed { order_id: "2002".into() };
+    let duplicate = Outcome::Duplicate { order_id: "2002".into() };
+    let seen = work_until(&clients, &resources, |seen| {
+        seen.contains(&processed) && seen.contains(&duplicate)
+    })
+    .await;
+    assert_eq!(seen.iter().filter(|o| **o == processed).count(), 1);
 }
 
 #[tokio::test(flavor = "multi_thread")]
